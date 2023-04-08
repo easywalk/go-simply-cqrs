@@ -1,21 +1,11 @@
-package watcher
+package simply
 
 import (
 	"context"
 	"github.com/Shopify/sarama"
-	"github.com/easywalk/go-simply-cqrs/command"
-	"github.com/easywalk/go-simply-cqrs/config"
-	"github.com/easywalk/go-simply-cqrs/model"
-	"github.com/easywalk/go-simply-cqrs/projector/generator"
-	"log"
-	"os"
 )
 
-var (
-	logger = log.New(os.Stdout, "watcher ", log.LstdFlags|log.Lshortfile)
-)
-
-func CreateProjector(cfg *config.Projector, ec <-chan eventModel.Event) Observer {
+func CreateProjector(cfg *Projector, ec <-chan Event) Observer {
 	p, err := NewObserver(cfg.Kafka, ec)
 	if err != nil {
 		logger.Fatalln("Error initializing projector", err)
@@ -23,7 +13,7 @@ func CreateProjector(cfg *config.Projector, ec <-chan eventModel.Event) Observer
 	return p
 }
 
-func StartEntityGenerator(evs command.EventStore, eg generator.EntityGenerator, cfg *config.KafkaConfig) {
+func StartEntityGenerator(evs EventStore, eg EntityGenerator, cfg *KafkaConfig) {
 	kCfg := sarama.NewConfig()
 	kCfg.Producer.Return.Successes = true
 	conString := []string{cfg.BootstrapServers}

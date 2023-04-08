@@ -1,16 +1,13 @@
-package watcher
+package simply
 
 import (
 	"encoding/json"
 	"github.com/Shopify/sarama"
-	"github.com/easywalk/go-simply-cqrs/command"
-	"github.com/easywalk/go-simply-cqrs/model"
-	"github.com/easywalk/go-simply-cqrs/projector/generator"
 )
 
 type transformer struct {
-	Evs command.EventStore
-	Eg  generator.EntityGenerator
+	Evs EventStore
+	Eg  EntityGenerator
 }
 
 func (p *transformer) Setup(_ sarama.ConsumerGroupSession) error   { return nil }
@@ -18,7 +15,7 @@ func (p *transformer) Cleanup(_ sarama.ConsumerGroupSession) error { return nil 
 func (p *transformer) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
 	for msg := range claim.Messages() {
 		// unmarshal msg.Value by eventType(Header:eventType)
-		var event eventModel.EventModel
+		var event EventModel
 		err := json.Unmarshal(msg.Value, &event)
 		if err != nil {
 			// send to dead letter queue and continue

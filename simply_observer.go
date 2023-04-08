@@ -1,13 +1,11 @@
-package watcher
+package simply
 
 import (
 	"encoding/json"
 	"github.com/Shopify/sarama"
-	"github.com/easywalk/go-simply-cqrs/config"
-	"github.com/easywalk/go-simply-cqrs/model"
 )
 
-func NewObserver(cfg *config.KafkaConfig, ec <-chan eventModel.Event) (Observer, error) {
+func NewObserver(cfg *KafkaConfig, ec <-chan Event) (Observer, error) {
 	// initialize kafka producer
 	producer, err := sarama.NewSyncProducer([]string{cfg.BootstrapServers}, nil)
 	if err != nil {
@@ -32,7 +30,7 @@ type Observer interface {
 }
 
 type observer struct {
-	ec       <-chan eventModel.Event
+	ec       <-chan Event
 	producer sarama.SyncProducer
 	topic    string
 }
@@ -49,7 +47,7 @@ func (p *observer) Run() {
 	}()
 }
 
-func (p *observer) publishEvent(event *eventModel.Event) {
+func (p *observer) publishEvent(event *Event) {
 	// publish event to kafka
 	jsonPayload, err := json.Marshal(event)
 	if err != nil {

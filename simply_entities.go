@@ -1,6 +1,7 @@
-package eventModel
+package simply
 
 import (
+	"encoding/json"
 	"github.com/google/uuid"
 	"time"
 )
@@ -27,4 +28,16 @@ func (ev *EventModel) Type() string {
 
 func (ev *EventModel) Time() time.Time {
 	return ev.AppliedAt
+}
+
+type EventEntity struct {
+	ID          uint            `gorm:"primarykey"`
+	UserNo      uint            `gorm:"index"`
+	EventType   string          `gorm:"index"`
+	AggregateId uuid.UUID       `gorm:"type:uuid;index"`
+	Payload     json.RawMessage `gorm:"type:json"`
+}
+
+func (EventEntity) TableName() string {
+	return "event_store"
 }

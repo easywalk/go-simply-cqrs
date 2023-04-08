@@ -1,24 +1,16 @@
-package db
+package simply
 
 import (
 	"context"
 	"fmt"
-	"github.com/easywalk/go-simply-cqrs/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"gorm.io/driver/postgres"
-
 	"gorm.io/gorm"
-	"log"
-	"os"
 	"time"
 )
 
-var (
-	logger = log.New(os.Stdout, "db: ", log.LstdFlags|log.Lshortfile)
-)
-
-func InitPostgresOrExit(cfg *config.DBConfig) (db *gorm.DB, err error) {
+func InitPostgresOrExit(cfg *DBConfig) (db *gorm.DB, err error) {
 	// initialize database of EventStore
 	eventDsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Seoul", cfg.Host, cfg.User, cfg.Password, cfg.Database, cfg.Port)
 	db, err = gorm.Open(postgres.Open(eventDsn), &gorm.Config{})
@@ -33,7 +25,7 @@ func InitPostgresOrExit(cfg *config.DBConfig) (db *gorm.DB, err error) {
 	return db, nil
 }
 
-func InitMongoOrExit(cfg *config.DBConfig) (entityStore *mongo.Database) {
+func InitMongoOrExit(cfg *DBConfig) (entityStore *mongo.Database) {
 	// create mongo connection
 	clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s", cfg.Host, cfg.Port)).SetAuth(
 		options.Credential{

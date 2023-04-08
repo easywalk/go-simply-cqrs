@@ -1,4 +1,8 @@
-package config
+package simply
+
+type AppConfig struct {
+	Name string
+}
 
 type KafkaConfig struct {
 	BootstrapServers string

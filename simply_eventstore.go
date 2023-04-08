@@ -1,13 +1,12 @@
-package command
+package simply
 
 import (
 	"encoding/json"
-	eventModel "github.com/easywalk/go-simply-cqrs/model"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
-func NewEventStore(db *gorm.DB, ec chan eventModel.Event) EventStore {
+func NewEventStore(db *gorm.DB, ec chan Event) EventStore {
 	return &eventStore{
 		db:           db,
 		eventChannel: ec,
@@ -15,32 +14,32 @@ func NewEventStore(db *gorm.DB, ec chan eventModel.Event) EventStore {
 }
 
 type EventStore interface {
-	AddAndPublishEvent(userNo uint, event eventModel.Event) (*Event, error)
-	GetAllEvents(aggregateId uuid.UUID) ([]*Event, error)
-	GetLastEvent(aggregateId uuid.UUID) (*Event, error)
+	AddAndPublishEvent(userNo uint, event Event) (*EventEntity, error)
+	GetAllEvents(aggregateId uuid.UUID) ([]*EventEntity, error)
+	GetLastEvent(aggregateId uuid.UUID) (*EventEntity, error)
 }
 
 type eventStore struct {
 	db           *gorm.DB
-	eventChannel chan eventModel.Event
+	eventChannel chan Event
 }
 
-func (evs *eventStore) GetLastEvent(aggregateId uuid.UUID) (event *Event, err error) {
+func (evs *eventStore) GetLastEvent(aggregateId uuid.UUID) (event *EventEntity, err error) {
 	return event, evs.db.Where("aggregate_id = ?", aggregateId).Last(&event).Error
 }
 
-func (evs *eventStore) GetAllEvents(aggregateId uuid.UUID) (events []*Event, err error) {
+func (evs *eventStore) GetAllEvents(aggregateId uuid.UUID) (events []*EventEntity, err error) {
 	return events, evs.db.Where("aggregate_id = ?", aggregateId).Find(&events).Error
 }
 
-func (evs *eventStore) AddAndPublishEvent(userNo uint, event eventModel.Event) (eventEntity *Event, err error) {
+func (evs *eventStore) AddAndPublishEvent(userNo uint, event Event) (eventEntity *EventEntity, err error) {
 
 	jsonPayload, err := json.Marshal(event)
 	if err != nil {
 		logger.Println("error marshalling command payload: ", err)
 	}
 
-	eventEntity = &Event{
+	eventEntity = &EventEntity{
 		UserNo:      userNo,
 		EventType:   event.Type(),
 		AggregateId: event.ID(),
