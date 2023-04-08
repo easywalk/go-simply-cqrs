@@ -13,6 +13,13 @@ func NewObserver(cfg *KafkaConfig, ec <-chan Event) (Observer, error) {
 		return nil, err
 	}
 
+	// create topic if not exists
+	err = createTopic(cfg.BootstrapServers, cfg.Topic)
+	if err != nil {
+		logger.Fatalln("Error creating topic", err)
+		return nil, err
+	}
+
 	logger.Println("Kafka Producer initialized")
 
 	var p = &observer{
@@ -23,6 +30,30 @@ func NewObserver(cfg *KafkaConfig, ec <-chan Event) (Observer, error) {
 	p.Run()
 
 	return p, nil
+}
+
+func createTopic(servers string, topic string) error {
+	config := sarama.NewConfig()
+	config.Version = sarama.V2_0_0_0
+	admin, err := sarama.NewClusterAdmin([]string{servers}, config)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err := admin.Close(); err != nil {
+			logger.Fatalf("Error closing admin: %v", err)
+		}
+	}()
+
+	err = admin.CreateTopic(topic, &sarama.TopicDetail{
+		NumPartitions:     5,
+		ReplicationFactor: 1,
+	}, false)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 type Observer interface {
