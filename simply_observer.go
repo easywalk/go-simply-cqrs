@@ -6,17 +6,16 @@ import (
 )
 
 func NewObserver(cfg *KafkaConfig, ec <-chan Event) (Observer, error) {
+	// create topic if not exists
+	if err := createTopic(cfg.BootstrapServers, cfg.Topic); err != nil {
+		logger.Fatalln("Error creating topic", err)
+		return nil, err
+	}
+
 	// initialize kafka producer
 	producer, err := sarama.NewSyncProducer([]string{cfg.BootstrapServers}, nil)
 	if err != nil {
 		logger.Fatalln("Error initializing kafka", err)
-		return nil, err
-	}
-
-	// create topic if not exists
-	err = createTopic(cfg.BootstrapServers, cfg.Topic)
-	if err != nil {
-		logger.Fatalln("Error creating topic", err)
 		return nil, err
 	}
 
