@@ -3,9 +3,9 @@ package watcher
 import (
 	"encoding/json"
 	"github.com/Shopify/sarama"
-	"github.com/easywalk/simply-go-cqrs/command"
-	"github.com/easywalk/simply-go-cqrs/model"
-	"github.com/easywalk/simply-go-cqrs/projector/generator"
+	"github.com/easywalk/go-simply-cqrs/command"
+	"github.com/easywalk/go-simply-cqrs/model"
+	"github.com/easywalk/go-simply-cqrs/projector/generator"
 )
 
 type transformer struct {

@@ -2,7 +2,7 @@ package command
 
 import (
 	"encoding/json"
-	eventModel "github.com/easywalk/simply-go-cqrs/model"
+	eventModel "github.com/easywalk/go-simply-cqrs/model"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )

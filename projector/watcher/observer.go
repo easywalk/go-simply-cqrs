@@ -3,8 +3,8 @@ package watcher
 import (
 	"encoding/json"
 	"github.com/Shopify/sarama"
-	"github.com/easywalk/simply-go-cqrs/config"
-	"github.com/easywalk/simply-go-cqrs/model"
+	"github.com/easywalk/go-simply-cqrs/config"
+	"github.com/easywalk/go-simply-cqrs/model"
 )
 
 func NewObserver(cfg *config.KafkaConfig, ec <-chan eventModel.Event) (Observer, error) {

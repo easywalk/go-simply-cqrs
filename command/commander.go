@@ -1,9 +1,9 @@
 package command
 
 import (
-	"github.com/easywalk/simply-go-cqrs/config"
-	"github.com/easywalk/simply-go-cqrs/db"
-	"github.com/easywalk/simply-go-cqrs/model"
+	"github.com/easywalk/go-simply-cqrs/config"
+	"github.com/easywalk/go-simply-cqrs/db"
+	"github.com/easywalk/go-simply-cqrs/model"
 	"gorm.io/gorm"
 	"log"
 	"os"
