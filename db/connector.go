@@ -2,8 +2,8 @@ package db
 
 import (
 	"context"
-	"easywalk.io/go/simply-cqrs/config"
 	"fmt"
+	"github.com/easywalk/simply-go-cqrs/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"gorm.io/driver/postgres"

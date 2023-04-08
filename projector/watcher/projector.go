@@ -2,11 +2,11 @@ package watcher
 
 import (
 	"context"
-	"easywalk.io/go/simply-cqrs/command"
-	"easywalk.io/go/simply-cqrs/config"
-	"easywalk.io/go/simply-cqrs/model"
-	"easywalk.io/go/simply-cqrs/projector/generator"
 	"github.com/Shopify/sarama"
+	"github.com/easywalk/simply-go-cqrs/command"
+	"github.com/easywalk/simply-go-cqrs/config"
+	"github.com/easywalk/simply-go-cqrs/model"
+	"github.com/easywalk/simply-go-cqrs/projector/generator"
 	"log"
 	"os"
 )

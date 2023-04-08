@@ -1,8 +1,8 @@
 package command
 
 import (
-	"easywalk.io/go/simply-cqrs/model"
 	"encoding/json"
+	eventModel "github.com/easywalk/simply-go-cqrs/model"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )

@@ -1,4 +1,4 @@
-module easywalk.io/go/simply-cqrs
+module github.com/easywalk/simply-go-cqrs
 
 go 1.20
 

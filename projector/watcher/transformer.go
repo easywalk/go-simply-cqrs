@@ -1,11 +1,11 @@
 package watcher
 
 import (
-	"easywalk.io/go/simply-cqrs/command"
-	"easywalk.io/go/simply-cqrs/model"
-	"easywalk.io/go/simply-cqrs/projector/generator"
 	"encoding/json"
 	"github.com/Shopify/sarama"
+	"github.com/easywalk/simply-go-cqrs/command"
+	"github.com/easywalk/simply-go-cqrs/model"
+	"github.com/easywalk/simply-go-cqrs/projector/generator"
 )
 
 type transformer struct {

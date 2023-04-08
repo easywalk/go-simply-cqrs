@@ -1,6 +1,6 @@
 package generator
 
-import "easywalk.io/go/simply-cqrs/command"
+import "github.com/easywalk/simply-go-cqrs/command"
 
 type EntityGenerator interface {
 	CreateEntityAnsSave(events []*command.Event) error

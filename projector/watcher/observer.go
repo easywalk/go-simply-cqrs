@@ -1,10 +1,10 @@
 package watcher
 
 import (
-	"easywalk.io/go/simply-cqrs/config"
-	"easywalk.io/go/simply-cqrs/model"
 	"encoding/json"
 	"github.com/Shopify/sarama"
+	"github.com/easywalk/simply-go-cqrs/config"
+	"github.com/easywalk/simply-go-cqrs/model"
 )
 
 func NewObserver(cfg *config.KafkaConfig, ec <-chan eventModel.Event) (Observer, error) {
