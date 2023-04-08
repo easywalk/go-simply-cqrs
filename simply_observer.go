@@ -8,8 +8,7 @@ import (
 func NewObserver(cfg *KafkaConfig, ec <-chan Event) (Observer, error) {
 	// create topic if not exists
 	if err := createTopic(cfg.BootstrapServers, cfg.Topic); err != nil {
-		logger.Fatalln("Error creating topic", err)
-		return nil, err
+		logger.Println("Error creating topic", err)
 	}
 
 	// initialize kafka producer
